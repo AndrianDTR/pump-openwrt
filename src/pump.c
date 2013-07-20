@@ -9,6 +9,19 @@
 #include <sys/stat.h>
 #include <string.h>
 
+#include "version.h"
+
+#define		CO_NONE			0x0000
+#define 	CO_HELP			0x0001
+#define 	CO_VERSION		0x0002
+#define 	CO_TEST			0x0004
+#define 	CO_ONCE			0x0008
+#define 	CO_STATE		0x0010
+#define 	CO_LOG			0x0020
+#define 	CO_LIMIT		0x0040
+#define 	CO_ELSE			0x0080
+#define 	CO_STOP			0x0100
+
 /*
  * @purpose:			Parse program argumets.
  *
@@ -21,10 +34,10 @@
  */
 int parseArgs(int argc, char* argv[])
 {
-	int res = 0;
-	res = 1;
+	int res = CO_NONE;
+	res = CO_VERSION;
 	
-	return res;	
+	return res;
 }
 
 /*
@@ -43,12 +56,48 @@ int main(int argc, char* argv[])
 	pid_t process_id = 0;
 	pid_t sid = 0;
 	
-	if( 0 != parseArgs(argc, argv))
+	int mask = parseArgs(argc, argv);
+	
+	if((mask & CO_VERSION) == CO_VERSION)
 	{
-		printf("Single shot run finished.\n");
-		return 0;
+		printf("\n");
+		printf("%s ver. %d.%d, build #%d.\n", DESCRIPTION, VER_MAJOR, VER_MINOR, BUILD_NUM);
+		printf("Git commit hash '%s' from '%s' branch.\n", SRC_COMMIT, SRC_BRANCH);
+		printf("\n");
+		printf("%s\n", COPYRIGHT);
+		printf("\n");
+		printf("Author: %s\n", AUTHOR_NAME);
+		printf("\n");
+		printf("Contact info:\n");
+		printf("\tEmail: %s\n", AUTHOR_EMAIL);
+		printf("\tSkype: %s\n", AUTHOR_SKYPE);
+		printf("\tPhone: %s\n", AUTHOR_PHONE);
+		printf("\n");
+		exit(0);
 	}
-		
+	
+	if((mask & CO_HELP) == CO_HELP)
+	{
+		printf("Pump version: %s\n", VERSION);
+		exit(0);
+	}
+	
+	if((mask & CO_STATE) == CO_STATE)
+	{
+		printf("Version: %d.%d, build %d.\n", VER_MAJOR, VER_MINOR, BUILD_NUM);
+		printf("Git commit hash '%s' from '%s' branch.\n", SRC_COMMIT, SRC_BRANCH);
+		printf("\n");
+		printf("%s", COPYRIGHT);
+		exit(0);
+	}
+	
+	
+	if((mask & CO_STOP) == CO_STOP)
+	{
+		printf("Stop!\n");
+		exit(0);
+	}
+	
 	// Create child process
 	process_id = fork();
 	

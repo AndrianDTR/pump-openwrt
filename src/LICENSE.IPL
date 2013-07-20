@@ -1,17 +1,17 @@
-INTEL(R) SOFTWARE LICENSE AGREEMENT
+SOFTWARE LICENSE AGREEMENT
  
-Copyright (c) 2007, Intel Corporation.
+Copyright (c) 2013, Andrian Yablonskyy.
 All rights reserved.
 
 Redistribution. Redistribution and use in binary form, without modification, are permitted
 provided that the following conditions are met:
 o Redistributions must reproduce the above copyright notice and the following disclaimer in the
 documentation and/or other materials provided with the distribution. 
-o Neither the name of Intel Corporation nor the names of its suppliers may be used to endorse
+o Neither the name of Andrian Yablonskyy nor the names of its suppliers may be used to endorse
 or promote products derived from this software without specific prior written permission. 
 o No reverse engineering, decompilation, or disassembly of this software is permitted.
 
-Limited patent license. Intel Corporation grants a world-wide, royalty-free, non-exclusive
+Limited patent license. Andrian Yablonskyy grants a world-wide, royalty-free, non-exclusive
 license under patents it now or hereafter owns or controls to make, have made, use, import,
 offer to sell and sell (.Utilize.) this software, but solely to the extent that any such patent is
 necessary to Utilize the software alone. The patent license shall not apply to any combinations

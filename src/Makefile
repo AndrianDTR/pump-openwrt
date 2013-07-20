@@ -1,7 +1,7 @@
 MAKEFLAGS += --no-print-directory
 
 PREFIX ?= /usr/local
-SBINDIR ?= $(PREFIX)/bin
+BINDIR ?= $(PREFIX)/bin
 MANDIR ?= $(PREFIX)/share/man
 PKG_CONFIG ?= pkg-config
 
@@ -12,9 +12,9 @@ CC ?= "gcc"
 CFLAGS ?= -O2 -g
 CFLAGS += -Wall 
 
-OBJS = pump_main.o version.o 
-
-ALL = pump
+SOURCES=pump.c pump.h version.h 
+OBJECTS=$(SOURCES:.c=.o)
+EXECUTABLE = pump
 
 ifeq ($(V),1)
 Q=
@@ -24,17 +24,19 @@ Q=@
 NQ=echo
 endif
 
-all: $(ALL)
+all: $(EXECUTABLE) $(SOURCES) 
 
-VERSION_OBJS := $(filter-out version.o, $(OBJS))
-
-%.o: %.c version.c pump.h
+version.h:
+	@$(NQ) ' Generate  ' $@
+	$(Q)./version.sh $@
+	
+%.o: %.c version.h pump.h
 	@$(NQ) ' CC  ' $@
 	$(Q)$(CC) $(CFLAGS) -c -o $@ $<
 
-pump: $(OBJS)
-	@$(NQ) ' CC  ' pump
-	$(Q)$(CC) $(LDFLAGS) $(OBJS) $(LIBS) -o pump
+pump: $(OBJECTS)
+	@$(NQ) ' CC  ' $(EXECUTABLE)
+	$(Q)$(CC) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $(EXECUTABLE)
 
 check:
 	$(Q)$(MAKE) all CC="REAL_CC=$(CC) CHECK=\"sparse -Wall\" cgcc"
@@ -43,13 +45,13 @@ check:
 	@$(NQ) ' GZIP' $<
 	$(Q)gzip < $< > $@
 
-install: pump pump.8.gz
+install: $(EXECUTABLE) pump.8.gz
 	@$(NQ) ' INST pump'
-	$(Q)$(MKDIR) $(DESTDIR)$(SBINDIR)
-	$(Q)$(INSTALL) -m 755 pump $(DESTDIR)$(SBINDIR)
+	$(Q)$(MKDIR) $(DESTDIR)$(BINDIR)
+	$(Q)$(INSTALL) -m 755 $(EXECUTABLE) $(DESTDIR)$(BINDIR)
 	@$(NQ) ' INST pump.8'
 	$(Q)$(MKDIR) $(DESTDIR)$(MANDIR)/man8/
 	$(Q)$(INSTALL) -m 644 pump.8.gz $(DESTDIR)$(MANDIR)/man8/
 
 clean:
-	$(Q)rm -f pump *.o *~ *.gz version.c *-stamp
+	$(Q)rm -f $(EXECUTABLE) *.o *~ *.gz version.h *-stamp
