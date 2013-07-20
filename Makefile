@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=pump
-PKG_VERSION:=0.0.1
-PKG_RELEASE:=1
+PKG_VERSION:=`git tag | tail -1`
+PKG_RELEASE:=`git rev-list HEAD | wc -l | sed -e 's/ *//g' | xargs -n1 printf %d`
 
 PKG_SRC_DIR:=./src
 PKG_BUILD_DIR:=$(BUILD_DIR)/pump
@@ -35,7 +35,6 @@ target=$(firstword $(subst -, ,$(BOARD)))
 
 MAKE_FLAGS += TARGET="$(target)"
 TARGET_CFLAGS := $(TARGET_CFLAGS) -Dtarget_$(target)=1 -Wall
-
 
 define Package/pump/install
 	$(INSTALL_DIR) $(1)

@@ -13,7 +13,7 @@ BRANCH=`git rev-parse --abbrev-ref HEAD`
 if [ "$TAG" != "" ]; then
 	VER_MAJOR=`echo $TAG | sed 's/\./ /g' | awk '{print $1}'`
 	VER_MINOR=`echo $TAG | sed 's/\./ /g' | awk '{print $2}'`
-	BUILD_NUM=`git log --pretty=format:'' | wc -l`
+	BUILD_NUM=`git rev-list HEAD | wc -l | sed -e 's/ *//g' | xargs -n1 printf %d`
 fi
 
 AUTHOR="Andrian Yablonskyy"

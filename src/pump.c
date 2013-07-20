@@ -62,9 +62,6 @@ int main(int argc, char* argv[])
 	{
 		printf("\n");
 		printf("%s ver. %d.%d, build #%d.\n", DESCRIPTION, VER_MAJOR, VER_MINOR, BUILD_NUM);
-		printf("Git commit hash '%s' from '%s' branch.\n", SRC_COMMIT, SRC_BRANCH);
-		printf("\n");
-		printf("%s\n", COPYRIGHT);
 		printf("\n");
 		printf("Author: %s\n", AUTHOR_NAME);
 		printf("\n");
@@ -72,6 +69,10 @@ int main(int argc, char* argv[])
 		printf("\tEmail: %s\n", AUTHOR_EMAIL);
 		printf("\tSkype: %s\n", AUTHOR_SKYPE);
 		printf("\tPhone: %s\n", AUTHOR_PHONE);
+		printf("\n");
+		printf("%s\n", COPYRIGHT);
+		printf("\n");
+		printf("Git src commit hash '%s' from '%s' branch.\n", SRC_COMMIT, SRC_BRANCH);
 		printf("\n");
 		exit(0);
 	}
