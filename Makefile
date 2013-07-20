@@ -4,10 +4,9 @@ PKG_NAME:=pump
 PKG_VERSION:=0.0.1
 PKG_RELEASE:=1
 
-PKG_BUILD_DIR:=$(BUILD_DIR)/pump-utils-$(PKG_VERSION)
-PKG_SOURCE:=pump-utils-$(PKG_VERSION).tar.gz
-#PKG_SOURCE_URL:=@SF/pump
-PKG_MD5SUM:=9b7dc52656f5cbec846a7ba3299f73bd
+PKG_SRC_DIR:=./src
+PKG_BUILD_DIR:=$(BUILD_DIR)/pump
+PKG_SOURCE:=pump.tar.gz
 PKG_CAT:=zcat
 
 include $(INCLUDE_DIR)/package.mk
@@ -21,14 +20,15 @@ define Package/pump
 	SECTION:=pump
 	TITLE:=Pump-controller
 	DEPENDS:=@!LINUX_3_1
-	URL:=file://./pump.tar
 	MENU:=1
 endef
 
 define Build/Prepare
 	mkdir -p $(PKG_BUILD_DIR)
-	$(CP) ./src/* $(PKG_BUILD_DIR)/
-	$(PKG_BUILD_DIR)/version.sh $(PKG_BUILD_DIR)/
+	$(CP) $(PKG_SRC_DIR)/Makefile $(PKG_BUILD_DIR)/
+	$(CP) $(PKG_SRC_DIR)/*.h $(PKG_BUILD_DIR)/
+	$(CP) $(PKG_SRC_DIR)/*.c $(PKG_BUILD_DIR)/
+	$(PKG_SRC_DIR)/version.sh $(PKG_BUILD_DIR)/version.c
 endef
 
 target=$(firstword $(subst -, ,$(BOARD)))

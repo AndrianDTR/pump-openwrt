@@ -28,16 +28,12 @@ all: $(ALL)
 
 VERSION_OBJS := $(filter-out version.o, $(OBJS))
 
-version.c: version.sh $(patsubst %.o,%.c,$(VERSION_OBJS)) pump.h Makefile
-	@$(NQ) ' GEN ' $@
-	echo $(Q)./version.sh $@
-	$(Q)./version.sh $@
-	
-%.o: %.c pump.h
+
+%.o: %.c version.c pump.h
 	@$(NQ) ' CC  ' $@
 	$(Q)$(CC) $(CFLAGS) -c -o $@ $<
 
-pump:	$(OBJS)
+pump: $(OBJS)
 	@$(NQ) ' CC  ' pump
 	$(Q)$(CC) $(LDFLAGS) $(OBJS) $(LIBS) -o pump
 
