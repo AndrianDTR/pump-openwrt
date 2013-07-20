@@ -28,7 +28,6 @@ all: $(ALL)
 
 VERSION_OBJS := $(filter-out version.o, $(OBJS))
 
-
 %.o: %.c version.c pump.h
 	@$(NQ) ' CC  ' $@
 	$(Q)$(CC) $(CFLAGS) -c -o $@ $<

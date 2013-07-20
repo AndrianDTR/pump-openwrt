@@ -25,10 +25,10 @@ endef
 
 define Build/Prepare
 	mkdir -p $(PKG_BUILD_DIR)
+	$(PKG_SRC_DIR)/version.sh $(PKG_SRC_DIR)/version.c
 	$(CP) $(PKG_SRC_DIR)/Makefile $(PKG_BUILD_DIR)/
 	$(CP) $(PKG_SRC_DIR)/*.h $(PKG_BUILD_DIR)/
 	$(CP) $(PKG_SRC_DIR)/*.c $(PKG_BUILD_DIR)/
-	$(PKG_SRC_DIR)/version.sh $(PKG_BUILD_DIR)/version.c
 endef
 
 target=$(firstword $(subst -, ,$(BOARD)))
